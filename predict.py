@@ -3,12 +3,14 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from flask import Flask
 from flask import request
+from flask_cors import CORS
 
 # read model file
 with open("model.bin", 'rb') as f_in:
     model = pickle.load(f_in)
     
 app = Flask("Heart")
+CORS(app)
 
 @app.route("/", methods=['GET'])
 
@@ -19,9 +21,7 @@ def index():
 
 def predict():
     data = request.get_json()
-    
-    customer = data['customer']
-    
+    customer = data
     customer_df = pd.DataFrame([customer])
     cont_cols = ['age', 'trtbps', 'chol', 'thalachh', 'oldpeak']
     st_scaler = StandardScaler()
