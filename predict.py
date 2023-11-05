@@ -2,7 +2,7 @@ import pickle
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from flask import Flask
-from flask import request
+from flask import request,jsonify
 from flask_cors import CORS
 
 # read model file
@@ -33,7 +33,12 @@ def predict():
     0: "no_disease",
     1: "disease"}
     
-    return outputLabels[pred]
+    data = { 
+            "success" : True, 
+            "data" : outputLabels[pred], 
+        } 
+    
+    return jsonify(data)
     
 if __name__ == "__main__":
     app.run(debug = True, host='0.0.0.0',port="8080")
